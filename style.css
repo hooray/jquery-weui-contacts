@@ -1,0 +1,86 @@
+//隐藏页面滚动条
+::-webkit-scrollbar{
+	display: none;
+}
+
+.contacts-content{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    overflow: auto;
+    background-color: #eee;
+}
+.contacts-content .weui-cells__title{
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+.contacts-content .weui-panel{
+    margin-top: 0;
+}
+.contacts-content .weui-panel .weui-media-box{
+    padding: 10px 5px;
+}
+.contacts-content .weui-panel .weui-media-box .weui-media-box__hd{
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    margin-left: .8em;
+}
+.contacts-content .weui-panel .weui-media-box .weui-media-box__hd img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.contacts-content .weui-panel .weui-media-box .weui-media-box__title {
+    font-size: 14px;
+}
+
+.navbar{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 25px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    color: #999;
+}
+.navbar.hover{
+    box-shadow: 0 0 3px 0 #ccc;
+    border-left: 1px solid #ddd;
+    background: linear-gradient(to left, #f9f9f9,#f1f1f1);
+    color: #666;
+}
+.navbar li{
+    margin: 0 5px;
+    text-align: center;
+    font-size: 12px;
+    line-height: normal;
+}
+.navbar li.selected{
+    border-radius: 10px;
+    background-color: #505050;
+    color: #fff;
+    font-weight: bold;
+}
+
+.toast{
+    display: none;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	margin-left: -50px;
+	margin-top: -50px;
+	width: 100px;
+	height: 100px;
+	line-height: 100px;
+	text-align: center;
+	font-size: 48px;
+	background-color: rgba(0, 0, 0, 0.5);
+	color: #fff;
+    border-radius: 10px;
+}

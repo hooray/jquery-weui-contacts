@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>jquery-weui-contacts</title>
+</head>
+<body>
+    <div class="contacts-content"></div>
+    <ul class="navbar"></ul>
+    <div class="toast"></div>
+    <script src="http://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(function(){
+            var letter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+            // 模拟数据生成
+            // 先生成联系人界面
+            var contactsHtml = '';
+            for(var i in letter){
+                contactsHtml +=
+                    `<div class="weui-cells__title" index="` + letter[i] + `">` + letter[i] + `</div>
+                    <div class="weui-panel weui-panel_access">
+                        <div class="weui-panel__bd">
+                            <a href="javascript:;" class="weui-media-box weui-media-box_appmsg">
+                                <div class="weui-media-box__hd">
+                                    <img class="weui-media-box__thumb" src="http://fakeimg.pl/40">
+                                </div>
+                                <div class="weui-media-box__bd">
+                                    <h4 class="weui-media-box__title">` + letter[i] + `代码小睿</h4>
+                                </div>
+                            </a>
+                            <a href="javascript:;" class="weui-media-box weui-media-box_appmsg">
+                                <div class="weui-media-box__hd">
+                                    <img class="weui-media-box__thumb" src="http://fakeimg.pl/40">
+                                </div>
+                                <div class="weui-media-box__bd">
+                                    <h4 class="weui-media-box__title">` + letter[i] + `代码小睿</h4>
+                                </div>
+                            </a>
+                        </div>
+                    </div>`;
+            }
+            $('.contacts-content').html(contactsHtml);
+            // 再生成右侧字母导航
+            var navbarHtml = '';
+            for(var i in letter){
+                navbarHtml += '<li>' + letter[i] + '</li>';
+            }
+            $('.navbar').html(navbarHtml);
+            
+            // 功能代码
+            var navbarOffset = []; // 用于存放字母导航每个字母所占用的位置
+            var tempheight = 0;
+            var step = $(document).outerHeight() / letter.length;
+            for(var i = 0; i < letter.length; i++){
+                navbarOffset.push({
+                    start: tempheight,
+                    end: tempheight + step
+                });
+                tempheight += step;
+            }
+            $('.navbar').on('touchstart', function(event) {
+                $(this).addClass('hover');
+            }).on('touchend', function(event) {
+                $(this).removeClass('hover');
+                $('.toast').text('').hide();
+                $('.navbar li').removeClass('selected');
+            }).on('touchmove', function(event) {
+                event.preventDefault();
+                var index;
+                // 根据当前手指 touch 位置的 clientY 值，依次去匹配，找到当前位于哪个字母上
+                for(var i in navbarOffset){
+                    if(event.originalEvent.changedTouches[0].clientY >= navbarOffset[i].start && event.originalEvent.changedTouches[0].clientY <= navbarOffset[i].end){
+                        index = i;
+                    }
+                }
+                // 然后根据当前字母计算出联系人页面对应的字母标题距离页面顶部的偏移值，并用 scrollTop 定位到该位置
+                if(typeof index != 'undefined'){
+                    $('.toast').text($('.navbar li:eq(' + index + ')').text()).show();
+                    $('.navbar li:eq(' + index + ')').addClass('selected').siblings('li').removeClass('selected');
+                    var setTop = $('.contacts-content [index="' + $('.navbar li:eq(' + index + ')').text() + '"]').offset().top + $('.contacts-content').scrollTop();
+                    $('.contacts-content').scrollTop(setTop);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
